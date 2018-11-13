@@ -8,7 +8,5 @@ namespace DatingApp.Core.Identity
     public class Role : IdentityRole
     {
         public ICollection<UserRole> UserRoles { get; set; }
-
-
     }
 }
