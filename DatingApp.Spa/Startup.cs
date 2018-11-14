@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using DatingApp.Infrastructure.Data;
 
 namespace DatingApp.Spa
 {
@@ -54,6 +55,7 @@ namespace DatingApp.Spa
                 });
 
             #endregion
+            services.AddTransient<Seed>();
 
             // The args is gonna require authenticated users throughout the app
             // so you don't have to put [Authorize] attr across the app
@@ -76,7 +78,7 @@ namespace DatingApp.Spa
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -88,9 +90,12 @@ namespace DatingApp.Spa
                 app.UseHsts();
             }
 
+            seeder.SeedUsers();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
 
             app.UseMvc(routes =>
             {

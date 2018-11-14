@@ -8,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Infrastructure
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
+           
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
 
             // To configure 'UserRole' Many-to-many relationship
             builder.Entity<UserRole>(userRole =>
