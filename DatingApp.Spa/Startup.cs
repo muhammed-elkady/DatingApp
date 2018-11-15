@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using DatingApp.Infrastructure.Data;
+using AutoMapper;
 
 namespace DatingApp.Spa
 {
@@ -31,6 +32,11 @@ namespace DatingApp.Spa
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<Seeder>();
+
+            
+            //Mapper.Reset();
+            services.AddAutoMapper();
+
 
             #region Authentication
             //I specified in the dbContext itself the connection string
