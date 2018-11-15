@@ -9,7 +9,7 @@ namespace DatingApp.Core.Identity
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public int RoleId { get; set; }
+        public string RoleId { get; set; }
         public Role Role { get; set; }
     }
 }
