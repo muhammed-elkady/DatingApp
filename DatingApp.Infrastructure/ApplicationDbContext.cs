@@ -12,12 +12,6 @@ namespace DatingApp.Infrastructure
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(IConfiguration Configuration)
-        {
-
-        }
-        public IConfiguration Configuration { get; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
