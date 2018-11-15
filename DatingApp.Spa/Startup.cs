@@ -39,7 +39,7 @@ namespace DatingApp.Spa
             builder.AddEntityFrameworkStores<ApplicationDbContext>();
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
-            builder.AddRoleManager<SignInManager<ApplicationUser>>();
+            builder.AddSignInManager<SignInManager<ApplicationUser>>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
