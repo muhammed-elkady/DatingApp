@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using DatingApp.Infrastructure.Data;
 
 namespace DatingApp.Spa
 {
@@ -29,6 +30,7 @@ namespace DatingApp.Spa
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<Seeder>();
 
             #region Authentication
             //I specified in the dbContext itself the connection string
@@ -78,7 +80,7 @@ namespace DatingApp.Spa
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)
         {
             if (env.IsDevelopment())
             {
@@ -89,6 +91,7 @@ namespace DatingApp.Spa
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            seeder.SeedUsers();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
