@@ -31,7 +31,9 @@ namespace DatingApp.Spa
         {
 
             #region Authentication
-            services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //I specified in the dbContext itself the connection string
+            //x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            services.AddDbContext<ApplicationDbContext>();
 
             IdentityBuilder builder = services.AddIdentityCore<ApplicationUser>();
 
