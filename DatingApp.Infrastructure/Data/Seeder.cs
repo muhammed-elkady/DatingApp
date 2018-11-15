@@ -12,6 +12,7 @@ namespace DatingApp.Infrastructure.Data
     public class Seeder
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private const string path = @"D:\Practice Projects\DatingApp\DatingApp.Infrastructure\Data\UserSeedData.json";
 
         public Seeder(UserManager<ApplicationUser> userManager)
         {
@@ -19,9 +20,9 @@ namespace DatingApp.Infrastructure.Data
         }
         public void SeedUsers()
         {
-            if (_userManager.Users.Any())
+            if (!_userManager.Users.Any())
             {
-                var userData = File.ReadAllText("Data/UserSeedData.json");
+                var userData = File.ReadAllText(path);
 
                 var users = JsonConvert.DeserializeObject<List<ApplicationUser>>(userData);
                 foreach (var user in users)
