@@ -12,7 +12,8 @@ namespace DatingApp.Infrastructure.Data
     public class Seeder
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private const string path = @"D:\Practice Projects\DatingApp\DatingApp.Infrastructure\Data\UserSeedData.json";
+        private readonly string path = "../DatingApp.Infrastructure/data/userseeddata.json";
+        
 
         public Seeder(UserManager<ApplicationUser> userManager)
         {
