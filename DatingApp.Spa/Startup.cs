@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using DatingApp.Infrastructure.Data;
 using AutoMapper;
+using DatingApp.Core.Helpers;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace DatingApp.Spa
 {
@@ -32,14 +35,14 @@ namespace DatingApp.Spa
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<Seeder>();
-            
+            services.AddTransient<JwtFactory>();
+
             //Mapper.Reset();
             services.AddAutoMapper();
-
+            services.AddCors();
 
             #region Authentication
-            //I specified in the dbContext itself the connection string
-            //x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+
             services.AddDbContext<ApplicationDbContext>();
 
             IdentityBuilder builder = services.AddIdentityCore<ApplicationUser>();
@@ -55,6 +58,7 @@ namespace DatingApp.Spa
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        //TODO: Study this
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                         ValidateIssuer = false,
@@ -62,7 +66,17 @@ namespace DatingApp.Spa
                     };
                 });
 
+            //Add policy-based authorization
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+            });
             #endregion
+
+
+
 
             // The args is gonna require authenticated users throughout the app
             // so you don't have to put [Authorize] attr across the app
@@ -74,6 +88,10 @@ namespace DatingApp.Spa
 
                 options.Filters.Add(new AuthorizeFilter(policy));
 
+            }).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -97,11 +115,14 @@ namespace DatingApp.Spa
                 app.UseHsts();
             }
             seeder.SeedUsers();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

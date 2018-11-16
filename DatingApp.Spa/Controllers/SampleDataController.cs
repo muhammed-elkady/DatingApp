@@ -17,6 +17,7 @@ namespace DatingApp.Spa.Controllers
         };
 
         [HttpGet("[action]")]
+        
         public IEnumerable<WeatherForecast> WeatherForecasts()
         {
             var rng = new Random();

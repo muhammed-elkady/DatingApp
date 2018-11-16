@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.Core.Dtos.User;
+using DatingApp.Core.Helpers;
 using DatingApp.Core.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -22,16 +23,18 @@ namespace DatingApp.Spa.Controllers.Api
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly JwtFactory _jwtFactory;
 
         public AuthController(IConfiguration config,
             IMapper mapper,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager, JwtFactory jwtFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _config = config;
+            _jwtFactory = jwtFactory;
         }
 
 
@@ -44,13 +47,12 @@ namespace DatingApp.Spa.Controllers.Api
                 var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
                 if (result.Succeeded)
                 {
-
                     // TODO: include() the PHOTOS in the returning result
                     // TODO: Generate Token
                     // EXEPTION: fires here becuase of PhotoUrl not mapped
                     var userToReturn = _mapper.Map<UserForListDto>(user);
-
-                    return Ok(new { token = "token", user = userToReturn });
+                    var token = await _jwtFactory.GenerateJwtToken(user);
+                    return Ok(new { token = token, user = userToReturn }); //user = userToReturn
                 }
 
             }
