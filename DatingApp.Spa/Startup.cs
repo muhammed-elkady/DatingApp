@@ -19,6 +19,8 @@ using AutoMapper;
 using DatingApp.Core.Helpers;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using DatingApp.Infrastructure.Repositories;
+using DatingApp.Infrastructure.Repositories.Interfaces;
 
 namespace DatingApp.Spa
 {
@@ -36,6 +38,7 @@ namespace DatingApp.Spa
         {
             services.AddTransient<Seeder>();
             services.AddTransient<JwtFactory>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             //Mapper.Reset();
             services.AddAutoMapper();
