@@ -35,6 +35,7 @@ namespace DatingApp.Spa.Controllers.Api
         }
 
 
+        [HttpPost]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
             if (ModelState.IsValid)
@@ -57,6 +58,7 @@ namespace DatingApp.Spa.Controllers.Api
         }
 
 
+        [HttpPost]
         public async Task<IActionResult> Register(UserForRegisterDto registerDto)
         {
             if (ModelState.IsValid)
