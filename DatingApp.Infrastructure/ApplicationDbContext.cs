@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace DatingApp.Infrastructure
 {
+    // Adding Generic <ApplicationUser> isn't included in the tutorial
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

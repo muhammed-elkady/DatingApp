@@ -46,6 +46,7 @@ namespace DatingApp.Spa.Controllers.Api
                 {
 
                     // TODO: include() the PHOTOS in the returning result
+                    // TODO: Generate Token
                     // EXEPTION: fires here becuase of PhotoUrl not mapped
                     var userToReturn = _mapper.Map<UserForListDto>(user);
 
@@ -54,7 +55,6 @@ namespace DatingApp.Spa.Controllers.Api
 
             }
             return BadRequest(userForLoginDto);
-
         }
 
 
@@ -70,10 +70,10 @@ namespace DatingApp.Spa.Controllers.Api
                 if (result.Succeeded)
                 {
                     // TODO: Create the users controller!
+                    // TODO: Sign In the user on registeration! 
                     return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
                 }
                 return BadRequest(result.Errors);
-
             }
             return BadRequest(registerDto);
         }

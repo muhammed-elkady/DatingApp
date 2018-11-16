@@ -32,7 +32,6 @@ namespace DatingApp.Spa
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<Seeder>();
-
             
             //Mapper.Reset();
             services.AddAutoMapper();
