@@ -36,9 +36,9 @@ namespace DatingApp.Spa
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<Seeder>();
+            services.AddScoped<Seeder>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddTransient<JwtFactory>();
-            services.AddTransient<IUserRepository, UserRepository>();
 
             //Mapper.Reset();
             services.AddAutoMapper();

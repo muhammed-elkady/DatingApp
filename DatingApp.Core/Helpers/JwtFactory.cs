@@ -37,7 +37,6 @@ namespace DatingApp.Core.Helpers
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            // I use the string because I can't use Config.GetSection()
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescieptor = new SecurityTokenDescriptor()

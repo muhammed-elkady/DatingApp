@@ -66,6 +66,7 @@ namespace DatingApp.Spa.Controllers.Api
             if (ModelState.IsValid)
             {
                 var userToCreate = _mapper.Map<ApplicationUser>(registerDto);
+                // TODO: handle when the username already exists
                 var result = await _userManager.CreateAsync(userToCreate, registerDto.Password);
                 var userToReturn = _mapper.Map<UserForRegisterDto>(userToCreate);
 
