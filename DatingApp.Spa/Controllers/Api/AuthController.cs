@@ -80,5 +80,29 @@ namespace DatingApp.Spa.Controllers.Api
             return BadRequest(registerDto);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UserNameExists(string userName)
+        {
+            var result = await _userManager.FindByNameAsync(userName);
+            if (result == null)
+                return NotFound();
+
+            return Ok($"{userName} exists!");
+        }
+
+        [HttpPost]
+        public IActionResult UserSignedIn(string userName)
+        {
+            var claimPrincipal = (System.Security.Claims.ClaimsPrincipal)User.Claims;
+            var result = _signInManager.IsSignedIn(claimPrincipal);
+            if (result)
+                return Ok(true);
+
+            return Ok(false);
+
+        }
+
+
+
     }
 }
