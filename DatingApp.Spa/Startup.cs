@@ -61,7 +61,6 @@ namespace DatingApp.Spa
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        //TODO: Study this
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                         ValidateIssuer = false,
