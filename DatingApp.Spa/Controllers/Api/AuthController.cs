@@ -44,16 +44,21 @@ namespace DatingApp.Spa.Controllers.Api
             if (ModelState.IsValid)
             {
                 ApplicationUser user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
-                var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    // TODO: include() the PHOTOS in the returning result
-                    // TODO: Generate Token
-                    // EXEPTION: fires here becuase of PhotoUrl not mapped
-                    var userToReturn = _mapper.Map<UserForListDto>(user);
-                    var token = await _jwtFactory.GenerateJwtToken(user);
-                    return Ok(new { token = token, user = userToReturn }); //user = userToReturn
+                    var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
+                    if (result.Succeeded)
+                    {
+                        // TODO: include() the PHOTOS in the returning result
+                        // TODO: Generate Token
+                        // EXEPTION: fires here becuase of PhotoUrl not mapped
+
+                        // var userToReturn = _mapper.Map<UserForListDto>(user);
+                        var token = await _jwtFactory.GenerateJwtToken(user);
+                        return Ok(new { token = token, user = user }); //user = userToReturn
+                    }
                 }
+                return NotFound();
 
             }
             return BadRequest(userForLoginDto);

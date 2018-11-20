@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -7,9 +9,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
+  loginForm = new FormGroup({
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+  });
+
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+
   }
+
+
+  get isUserLoggedin() {
+    return this.authService.isUserLoggedin;
+  }
+
+  onLoginFormSubmit() {
+    let loginFormToSend = { username: this.loginForm.controls.username.value, password: this.loginForm.controls.password.value }
+    debugger;
+    this.authService.login(loginFormToSend)
+      .subscribe((next) => {
+        console.log(next);
+      },
+        (error) => {
+          console.error(error);
+        }
+      )
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
 
 }
