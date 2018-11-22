@@ -79,7 +79,8 @@ namespace DatingApp.Spa.Controllers.Api
                 {
                     // TODO: Create the users controller!
                     // TODO: Sign In the user on registeration! 
-                    return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
+                    return Ok(userToReturn);
+                    //return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
                 }
                 return BadRequest(result.Errors);
             }

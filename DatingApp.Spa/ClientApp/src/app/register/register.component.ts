@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -14,13 +15,16 @@ export class RegisterComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
   }
 
-  onRegisterFormSubmit() {
-
+  onRegisterFormSubmit() {  
+    this.authService.register(this.registerModel)
+      .subscribe(
+        () => console.log('registeration successful!'),
+        error => console.log(error));
   }
 
 }

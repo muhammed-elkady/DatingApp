@@ -22,6 +22,10 @@ export class AuthService {
     )
   }
 
+  register(registerModel: any): Observable<any> {
+    return this.httpClient.post(this.baseUrl + 'register', registerModel);
+  }
+
   logout() {
     localStorage.removeItem('token');
   }
