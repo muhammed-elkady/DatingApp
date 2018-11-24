@@ -8,19 +8,18 @@ import { AppComponent } from './app.component';
 import { AuthService } from '../app/_services/auth.service'
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
 
 const appRoutes: Routes = [
    {
       path: '',
       component: HomeComponent,
       pathMatch: 'full'
-
    },
    {
       path: 'register',
       component: RegisterComponent
    }
-
 ]
 
 @NgModule({
@@ -37,7 +36,10 @@ const appRoutes: Routes = [
       ReactiveFormsModule,
       RouterModule.forRoot(appRoutes)
    ],
-   providers: [AuthService],
+   providers: [
+      AuthService,
+      ErrorInterceptorProvider
+   ],
    bootstrap: [AppComponent]
 })
 export class AppModule { }

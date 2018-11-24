@@ -21,6 +21,10 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using DatingApp.Infrastructure.Repositories;
 using DatingApp.Infrastructure.Repositories.Interfaces;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using DatingApp.Core.Extensions;
 
 namespace DatingApp.Spa
 {
@@ -113,7 +117,23 @@ namespace DatingApp.Spa
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                //app.UseExceptionHandler("/Error");
+
+                //Handle Exceptions globally in production mode
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            context.Response.AddApplicationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
+                });
+
                 app.UseHsts();
             }
             seeder.SeedUsers();

@@ -28,7 +28,7 @@ export class NavComponent implements OnInit {
 
   onLoginFormSubmit() {
     let loginFormToSend = { username: this.loginForm.controls.username.value, password: this.loginForm.controls.password.value }
-    debugger;
+    
     this.authService.login(loginFormToSend)
       .subscribe((next) => {
         console.log(next);

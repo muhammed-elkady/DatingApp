@@ -40,7 +40,7 @@ namespace DatingApp.Spa.Controllers.Api
 
         [HttpPost]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
-        {
+        {            
             if (ModelState.IsValid)
             {
                 ApplicationUser user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
