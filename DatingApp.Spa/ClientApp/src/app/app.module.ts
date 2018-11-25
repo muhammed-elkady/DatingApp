@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
+import { BsDropdownModule } from 'ngx-bootstrap';
 
 const appRoutes: Routes = [
    {
@@ -35,7 +36,8 @@ const appRoutes: Routes = [
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes),
+      BsDropdownModule.forRoot()
    ],
    providers: [
       AuthService,
