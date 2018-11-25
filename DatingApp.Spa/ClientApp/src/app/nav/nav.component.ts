@@ -10,39 +10,39 @@ import { AlertifyService } from '../_services/alertify.service';
 })
 export class NavComponent implements OnInit {
 
+  // username: string;
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
 
 
-  constructor(private _authService: AuthService, private _alertifyService: AlertifyService) { }
+  constructor(public authService: AuthService, private _alertifyService: AlertifyService) { }
 
   ngOnInit() {
-
+    // The reason this didn't work because the value was set and localstorage changes isn't listned to
+    // this.username = this._authService.decodedToken.unique_name;
   }
 
 
   get isUserLoggedin() {
-    return this._authService.isUserLoggedin;
+    return this.authService.isUserLoggedin;
   }
 
   onLoginFormSubmit() {
     let loginFormToSend = { username: this.loginForm.controls.username.value, password: this.loginForm.controls.password.value }
 
-    this._authService.login(loginFormToSend)
+    this.authService.login(loginFormToSend)
       .subscribe((next) => {
-        console.log(next);
         this._alertifyService.success('logged in successfully');
       },
         (error) => {
           this._alertifyService.error('login failed!');
-        }
-      )
+        });
   }
 
   logout() {
-    this._authService.logout();
+    this.authService.logout();
     this._alertifyService.message('logged out successfully');
   }
 
