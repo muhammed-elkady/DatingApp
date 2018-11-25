@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
+import { AlertifyService } from '../_services/alertify.service';
 
 @Component({
   selector: 'app-nav',
@@ -15,7 +16,7 @@ export class NavComponent implements OnInit {
   });
 
 
-  constructor(private authService: AuthService) { }
+  constructor(private _authService: AuthService, private _alertifyService: AlertifyService) { }
 
   ngOnInit() {
 
@@ -23,24 +24,26 @@ export class NavComponent implements OnInit {
 
 
   get isUserLoggedin() {
-    return this.authService.isUserLoggedin;
+    return this._authService.isUserLoggedin;
   }
 
   onLoginFormSubmit() {
     let loginFormToSend = { username: this.loginForm.controls.username.value, password: this.loginForm.controls.password.value }
-    
-    this.authService.login(loginFormToSend)
+
+    this._authService.login(loginFormToSend)
       .subscribe((next) => {
         console.log(next);
+        this._alertifyService.success('logged in successfully');
       },
         (error) => {
-          console.log(error);
+          this._alertifyService.error('login failed!');
         }
       )
   }
 
   logout() {
-    this.authService.logout();
+    this._authService.logout();
+    this._alertifyService.message('logged out successfully');
   }
 
 

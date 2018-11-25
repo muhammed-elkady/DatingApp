@@ -9,6 +9,7 @@ import { AuthService } from '../app/_services/auth.service'
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
+import { AlertifyService } from './_services/alertify.service';
 
 const appRoutes: Routes = [
    {
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
    ],
    providers: [
       AuthService,
-      ErrorInterceptorProvider
+      ErrorInterceptorProvider,
+      AlertifyService
    ],
    bootstrap: [AppComponent]
 })

@@ -11,7 +11,7 @@ export class AuthService {
   private baseUrl = 'https://localhost:44378/api/auth/';
   constructor(private httpClient: HttpClient) { }
 
-  login(loginModel: any): Observable<any> {
+  login(loginModel: any) {
     return this.httpClient.post(this.baseUrl + 'login', loginModel).pipe(
       map((response: any) => {
         const user = response;
