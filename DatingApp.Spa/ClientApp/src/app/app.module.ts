@@ -11,25 +11,23 @@ import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { MembersListComponent } from './members-list/members-list.component';
+import { MessagesComponent } from './messages/messages.component';
+import { appRoutes } from './routes';
+import { ListsComponent } from './lists/lists.component';
+import { AuthGuard } from './_guards/auth.guard';
 
-const appRoutes: Routes = [
-   {
-      path: '',
-      component: HomeComponent,
-      pathMatch: 'full'
-   },
-   {
-      path: 'register',
-      component: RegisterComponent
-   }
-]
+
 
 @NgModule({
    declarations: [
       AppComponent,
       NavComponent,
       HomeComponent,
-      RegisterComponent
+      RegisterComponent,
+      MembersListComponent,
+      MessagesComponent,
+      ListsComponent
    ],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,7 +40,8 @@ const appRoutes: Routes = [
    providers: [
       AuthService,
       ErrorInterceptorProvider,
-      AlertifyService
+      AlertifyService,
+      AuthGuard
    ],
    bootstrap: [AppComponent]
 })

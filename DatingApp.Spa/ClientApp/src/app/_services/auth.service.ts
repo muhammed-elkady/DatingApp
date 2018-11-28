@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   get isUserLoggedin(): boolean {
-    
+
     const token = localStorage.getItem('token');
     return !this._jwtHelper.isTokenExpired(token)
     // return !!localStorage.getItem('token');
