@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using DatingApp.Core.Entities;
 using DatingApp.Core.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace DatingApp.Infrastructure
     {
         // The DbSet<Users> are in the inherited IdentityDbContext 
 
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,6 +44,12 @@ namespace DatingApp.Infrastructure
                 userRole.HasOne(ur => ur.Role).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.RoleId).IsRequired();
                 userRole.HasOne(ur => ur.User).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.UserId).IsRequired();
             });
+
+            // Cascade delete photos when user is deleted
+            builder.Entity<Photo>()
+            .HasOne(b => b.ApplicationUser)
+            .WithMany(a => a.Photos)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

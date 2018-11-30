@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using DatingApp.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,8 +20,8 @@ namespace DatingApp.Core.Identity
         public string City { get; set; }
         public string Country { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
-        //public ICollection<Photo> Photos { get; set; }
         //public ICollection<Like> Likers { get; set; }
         //public ICollection<Like> Likees { get; set; }
         //public ICollection<Message> MessagesSent { get; set; }

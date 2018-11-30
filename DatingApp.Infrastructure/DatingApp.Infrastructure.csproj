@@ -6,6 +6,10 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20181115092824_IdentityInitial.cs" />
+    <Compile Remove="Migrations\20181128192231_addPhotos.cs" />
+    <Compile Remove="Migrations\20181128194622_addPhotos.cs" />
+    <Compile Remove="Migrations\20181128194814_addPhotos.cs" />
+    <Compile Remove="Migrations\20181128194913_addPhotos.cs" />
   </ItemGroup>
 
   <ItemGroup>
