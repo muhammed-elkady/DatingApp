@@ -1,30 +1,28 @@
+using AutoMapper;
+using DatingApp.Core.Extensions;
+using DatingApp.Core.Helpers;
 using DatingApp.Core.Identity;
 using DatingApp.Infrastructure;
+using DatingApp.Infrastructure.Data;
+using DatingApp.Infrastructure.Repositories;
+using DatingApp.Infrastructure.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Authorization;
-using DatingApp.Infrastructure.Data;
-using AutoMapper;
-using DatingApp.Core.Helpers;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
-using DatingApp.Infrastructure.Repositories;
-using DatingApp.Infrastructure.Repositories.Interfaces;
+using Newtonsoft.Json.Serialization;
 using System.Net;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using DatingApp.Core.Extensions;
+using System.Text;
 
 namespace DatingApp.Spa
 {
@@ -48,8 +46,8 @@ namespace DatingApp.Spa
             services.AddAutoMapper();
             services.AddCors();
 
-            #region Authentication
 
+            #region Authentication
             services.AddDbContext<ApplicationDbContext>();
 
             IdentityBuilder builder = services.AddIdentityCore<ApplicationUser>();

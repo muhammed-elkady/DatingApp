@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DatingApp.Core.Identity;
 using DatingApp.Infrastructure.Repositories.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Infrastructure.Repositories
@@ -30,20 +27,27 @@ namespace DatingApp.Infrastructure.Repositories
             _context.Remove(entity);
         }
 
-        public async Task<bool> SaveAll()
-        {
-            var result = await _context.SaveChangesAsync();
-            if (result > 0)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public IEnumerable<ApplicationUser> GetUsersWithTheirRoles()
         {
             var myUsersAndRoles = _context.Users.Include(u => u.UserRoles).ToList();
             return myUsersAndRoles;
+        }
+
+        public async Task<ApplicationUser> GetUser(string id)
+        {
+            var user = await _context.Users.Include(c => c.Photos).FirstOrDefaultAsync(c => c.Id == id);
+            return user;
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetAllUsers()
+        {
+            var users = await _context.Users.Include(c => c.Photos).ToListAsync();
+            return users;
+        }
+
+        public async Task<bool> SaveAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
         }
 
     }

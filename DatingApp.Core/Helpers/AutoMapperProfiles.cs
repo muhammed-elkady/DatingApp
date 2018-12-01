@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using DatingApp.Core.Dtos.Photo;
 using DatingApp.Core.Dtos.User;
+using DatingApp.Core.Entities;
 using DatingApp.Core.Extensions;
 using DatingApp.Core.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DatingApp.Core.Helpers
@@ -13,25 +16,29 @@ namespace DatingApp.Core.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<ApplicationUser, UserForListDto>()
-                .ForMember(dst => dst.Age, opt =>
-                 {
-                     opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
-                 });
-            //.ForMember(dst => dst.PhotoUrl, opt => { opt.MapFrom(src => src.Photos.FirstOrDefault(c => c.IsMain).Url) });
-
+            .ForMember(dst => dst.Age, opt =>
+            {
+                opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
+            })
+            .ForMember(dest => dest.PhotoUrl, c =>
+            {
+                c.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url);
+            });
 
             CreateMap<ApplicationUser, UserForDetailsDto>()
               .ForMember(dest => dest.Age, opt =>
               {
                   opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
+              })
+              .ForMember(dest => dest.PhotoUrl, c =>
+              {
+                  c.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url);
               });
-            //.ForMember(dest => dest.PhotoUrl, opt => {
-            //    opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
-            //})
 
             CreateMap<ApplicationUser, UserForLoginDto>();
             CreateMap<UserForRegisterDto, ApplicationUser>();
             CreateMap<ApplicationUser, UserForRegisterDto>();
+            CreateMap<Photo, PhotosForDetailsDto>();
 
         }
     }

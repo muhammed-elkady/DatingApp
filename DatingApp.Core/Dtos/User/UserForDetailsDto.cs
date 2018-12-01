@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DatingApp.Core.Dtos.Photo;
+using DatingApp.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +8,7 @@ namespace DatingApp.Core.Dtos.User
 {
     public class UserForDetailsDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Username { get; set; }
         public string Gender { get; set; }
         public int Age { get; set; }
@@ -19,6 +21,6 @@ namespace DatingApp.Core.Dtos.User
         public string City { get; set; }
         public string Country { get; set; }
         public string PhotoUrl { get; set; }
-        //public ICollection<PhotosForDetailedDto> Photos { get; set; }
+        public ICollection<PhotosForDetailsDto> Photos { get; set; }
     }
 }
