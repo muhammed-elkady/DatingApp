@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { DecodedToken } from '../models/decoded-token';
+import { DecodedToken } from '../models/interfaces/decoded-token';
 import { AlertifyService } from './alertify.service';
 
 @Injectable({

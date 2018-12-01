@@ -11,11 +11,14 @@ import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
 import { BsDropdownModule } from 'ngx-bootstrap';
-import { MembersListComponent } from './members-list/members-list.component';
+
 import { MessagesComponent } from './messages/messages.component';
 import { appRoutes } from './routes';
 import { ListsComponent } from './lists/lists.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { UserService } from './_services/user.service';
+import { MembersListComponent } from './members/members-list/members-list.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
 
 
 
@@ -27,7 +30,8 @@ import { AuthGuard } from './_guards/auth.guard';
       RegisterComponent,
       MembersListComponent,
       MessagesComponent,
-      ListsComponent
+      ListsComponent,
+      MemberCardComponent
    ],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,7 +45,8 @@ import { AuthGuard } from './_guards/auth.guard';
       AuthService,
       ErrorInterceptorProvider,
       AlertifyService,
-      AuthGuard
+      AuthGuard,
+      UserService
    ],
    bootstrap: [AppComponent]
 })
