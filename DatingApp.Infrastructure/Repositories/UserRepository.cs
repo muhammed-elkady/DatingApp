@@ -41,8 +41,9 @@ namespace DatingApp.Infrastructure.Repositories
 
         public async Task<IEnumerable<ApplicationUser>> GetAllUsers()
         {
-            var users = await _context.Users.Include(c => c.Photos).ToListAsync();
-            return users;
+            var users = _context.Users.Include(c => c.Photos).Include(c => c.UserRoles);
+            var usersWithoutAdmin = await users.Where(c => c.UserRoles.All(x => x.Role.Name != "Admin")).ToListAsync();
+            return usersWithoutAdmin;
         }
 
         public async Task<bool> SaveAll()
