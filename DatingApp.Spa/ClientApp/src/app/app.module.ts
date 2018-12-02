@@ -11,6 +11,7 @@ import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { MessagesComponent } from './messages/messages.component';
 import { appRoutes } from './routes';
@@ -19,7 +20,17 @@ import { AuthGuard } from './_guards/auth.guard';
 import { UserService } from './_services/user.service';
 import { MembersListComponent } from './members/members-list/members-list.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
+import { environment } from '../environments/environment';
 
+export function jwtOptionsFactory() {
+   return {
+      tokenGetter: () => {
+         return localStorage.getItem('token');
+      },
+      whitelistedDomains: environment.whitelistedDomains,
+      // blacklistedRoutes: environment.blacklistedRoutes
+   }
+}
 
 
 @NgModule({
@@ -39,7 +50,13 @@ import { MemberCardComponent } from './members/member-card/member-card.component
       FormsModule,
       ReactiveFormsModule,
       RouterModule.forRoot(appRoutes),
-      BsDropdownModule.forRoot()
+      BsDropdownModule.forRoot(),
+      JwtModule.forRoot({
+         jwtOptionsProvider: {
+            provide: JWT_OPTIONS,
+            useFactory: jwtOptionsFactory
+         }
+      })
    ],
    providers: [
       AuthService,
