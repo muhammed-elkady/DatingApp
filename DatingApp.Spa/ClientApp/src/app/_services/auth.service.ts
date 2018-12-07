@@ -22,7 +22,7 @@ export class AuthService {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token);
-          // this.decodedToken = this._jwtHelper.decodeToken(user.token);
+          
           debugger;
           this.decodedToken = this._jwtHelper.decodeToken(user.token) as DecodedToken;
           this.alertifyService.success(`Hello ${this.decodedToken.unique_name}`);
@@ -40,10 +40,11 @@ export class AuthService {
   }
 
   get isUserLoggedin(): boolean {
-
     const token = localStorage.getItem('token');
     return !this._jwtHelper.isTokenExpired(token)
-    // return !!localStorage.getItem('token');
+  }
+  get token(): string {
+    return localStorage.getItem('token');
   }
 
 }
