@@ -23,6 +23,7 @@ import { JwtInterceptor } from './_services/interceptors/jwt.interceptor';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 @NgModule({
    declarations: [
@@ -41,6 +42,7 @@ import { MemberListResolver } from './_resolvers/member-list.resolver';
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
+      NgxGalleryModule,
       RouterModule.forRoot(appRoutes),
       BsDropdownModule.forRoot(),
       TabsModule.forRoot()
