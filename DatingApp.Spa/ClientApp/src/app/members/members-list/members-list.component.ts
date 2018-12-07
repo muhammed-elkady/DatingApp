@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../../app/models/interfaces/user';
 import { UserService } from '../../_services/user.service';
 import { AlertifyService } from '../../_services/alertify.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -13,23 +14,14 @@ export class MembersListComponent implements OnInit {
   users: Array<User>;
   constructor(
     private userService: UserService,
-    private alertifyService: AlertifyService
+    private alertifyService: AlertifyService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.loadUsers();
-  }
-
-
-  loadUsers() {
-    this.userService.getUsers().subscribe(
-      (res: User[]) => {
-        debugger;
-        this.users = res
-      },
-      (err) => {
-        this.alertifyService.error(err)
-        this.alertifyService.error('Error happened while loading users')
+    this.route.data.subscribe(
+      data => {
+        this.users = data['users']
       }
     )
   }

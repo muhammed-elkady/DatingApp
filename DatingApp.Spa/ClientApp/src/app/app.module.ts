@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 
 import { MessagesComponent } from './messages/messages.component';
 import { appRoutes } from './routes';
@@ -20,6 +20,9 @@ import { UserService } from './_services/user.service';
 import { MembersListComponent } from './members/members-list/members-list.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtInterceptor } from './_services/interceptors/jwt.interceptor';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
+import { MemberListResolver } from './_resolvers/member-list.resolver';
 
 @NgModule({
    declarations: [
@@ -30,7 +33,8 @@ import { JwtInterceptor } from './_services/interceptors/jwt.interceptor';
       MembersListComponent,
       MessagesComponent,
       ListsComponent,
-      MemberCardComponent
+      MemberCardComponent,
+      MemberDetailComponent
    ],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,6 +43,7 @@ import { JwtInterceptor } from './_services/interceptors/jwt.interceptor';
       ReactiveFormsModule,
       RouterModule.forRoot(appRoutes),
       BsDropdownModule.forRoot(),
+      TabsModule.forRoot()
    ],
    providers: [
       AuthService,
@@ -46,6 +51,8 @@ import { JwtInterceptor } from './_services/interceptors/jwt.interceptor';
       AlertifyService,
       AuthGuard,
       UserService,
+      MemberDetailResolver,
+      MemberListResolver,
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
    ],
    bootstrap: [AppComponent]
