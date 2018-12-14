@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { User } from './../../models/interfaces/user';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from './../../_services/alertify.service';
@@ -11,9 +11,17 @@ import { NgForm } from '@angular/forms';
 })
 export class MemberEditComponent implements OnInit {
 
-  @ViewChild('editForm') editForm: NgForm;
-  user: User;
+  // Prevent the user of reloading the page before saving changes
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.editForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
+  @ViewChild('editForm') editForm: NgForm;
+
+  user: User;
   constructor(private route: ActivatedRoute,
     private alertifyService: AlertifyService) { }
 
