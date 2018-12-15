@@ -12,6 +12,7 @@ namespace DatingApp.Core.Entities
         public string Description { get; set; }
         public DateTime DateAdded { get; set; }
         public bool IsMain { get; set; }
+        public string PublicId { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }

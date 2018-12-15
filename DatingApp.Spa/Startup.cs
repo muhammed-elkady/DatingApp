@@ -104,6 +104,8 @@ namespace DatingApp.Spa
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
