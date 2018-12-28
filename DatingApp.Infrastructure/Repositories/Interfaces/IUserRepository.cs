@@ -1,4 +1,5 @@
-﻿using DatingApp.Core.Identity;
+﻿using DatingApp.Core.Entities;
+using DatingApp.Core.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +14,7 @@ namespace DatingApp.Infrastructure.Repositories.Interfaces
         Task<ApplicationUser> GetUser(string id);
 
         Task<IEnumerable<ApplicationUser>> GetAllUsers();
+
+        Task<Photo> GetPhoto(int id);
     }
 }

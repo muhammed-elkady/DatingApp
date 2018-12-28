@@ -40,6 +40,8 @@ namespace DatingApp.Core.Helpers
             CreateMap<ApplicationUser, UserForRegisterDto>();
             CreateMap<Photo, PhotosForDetailsDto>();
             CreateMap<UserForUpdateDto, ApplicationUser>();
+            CreateMap<Photo, PhotoForReturnDto>();
+            CreateMap<PhotoForCreationDto, Photo>();
 
 
         }

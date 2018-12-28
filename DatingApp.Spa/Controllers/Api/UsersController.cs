@@ -47,7 +47,7 @@ namespace DatingApp.Spa.Controllers.Api
         public async Task<IActionResult> UpdateUser(string id, UserForUpdateDto user)
         {
 
-            if (!checkUserIdentity(id))
+            if (!CheckUserIdentity(id))
             {
                 return Unauthorized();
             }
@@ -61,7 +61,7 @@ namespace DatingApp.Spa.Controllers.Api
         }
 
         #region Helpers
-        private bool checkUserIdentity(string id)
+        private bool CheckUserIdentity(string id)
         {
             if (id == User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {

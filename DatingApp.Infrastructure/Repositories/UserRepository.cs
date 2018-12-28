@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatingApp.Core.Entities;
 using DatingApp.Core.Identity;
 using DatingApp.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -51,5 +52,10 @@ namespace DatingApp.Infrastructure.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<Photo> GetPhoto(int id)
+        {
+            var photo = await _context.Photos.FirstOrDefaultAsync(p => p.Id == id);
+            return photo;
+        }
     }
 }
