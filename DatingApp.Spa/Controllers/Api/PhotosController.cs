@@ -105,6 +105,39 @@ namespace DatingApp.Spa.Controllers.Api
 
         }
 
+        //id = userId
+        [HttpPost("{photoId}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(string id, int photoId)
+        {
+            if (!CheckUserIdentity(id))
+                return Unauthorized();
+
+            var user = await _repo.GetUser(id);
+            if (!user.Photos.Any(p => p.Id == photoId))
+                return Unauthorized();
+
+            var photoFromRepo = await _repo.GetPhoto(photoId);
+            if (photoFromRepo.IsMain)
+                return BadRequest("This is already the main photo!");
+
+
+            var currentMainPhoto = await _repo.GetMainPhotoForUser(id);
+            currentMainPhoto.IsMain = false;
+
+            photoFromRepo.IsMain = true;
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+
+            return BadRequest("Could not set main photo!");
+
+
+        }
+
+
+
+
 
         #region Helpers
         private bool CheckUserIdentity(string id)

@@ -16,5 +16,7 @@ namespace DatingApp.Infrastructure.Repositories.Interfaces
         Task<IEnumerable<ApplicationUser>> GetAllUsers();
 
         Task<Photo> GetPhoto(int id);
+
+        Task<Photo> GetMainPhotoForUser(string userId);
     }
 }
