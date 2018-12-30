@@ -34,9 +34,9 @@ namespace DatingApp.Infrastructure.Repositories
             return myUsersAndRoles;
         }
 
-        public async Task<ApplicationUser> GetUser(string username)
+        public async Task<ApplicationUser> GetUser(string id)
         {
-            var user = await _context.Users.Include(c => c.Photos).FirstOrDefaultAsync(c => c.UserName == username);
+            var user = await _context.Users.Include(c => c.Photos).FirstOrDefaultAsync(c => c.Id == id);
             return user;
         }
 
