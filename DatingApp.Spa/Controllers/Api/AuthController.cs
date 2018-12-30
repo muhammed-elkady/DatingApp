@@ -6,6 +6,7 @@ using AutoMapper;
 using DatingApp.Core.Dtos.User;
 using DatingApp.Core.Helpers;
 using DatingApp.Core.Identity;
+using DatingApp.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -21,17 +22,21 @@ namespace DatingApp.Spa.Controllers.Api
     {
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtFactory _jwtFactory;
 
         public AuthController(IConfiguration config,
             IMapper mapper,
+            IUserRepository userRepo,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, JwtFactory jwtFactory)
+            SignInManager<ApplicationUser> signInManager,
+            JwtFactory jwtFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userRepo = userRepo;
             _mapper = mapper;
             _config = config;
             _jwtFactory = jwtFactory;
@@ -40,22 +45,18 @@ namespace DatingApp.Spa.Controllers.Api
 
         [HttpPost]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
-        {            
+        {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
+                var user = await _userRepo.GetUser(userForLoginDto.UserName);
                 if (user != null)
                 {
                     var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
                     if (result.Succeeded)
                     {
-                        // TODO: include() the PHOTOS in the returning result
-                        // TODO: Generate Token
-                        // EXEPTION: fires here becuase of PhotoUrl not mapped
-
-                        // var userToReturn = _mapper.Map<UserForListDto>(user);
+                        var userToReturn = _mapper.Map<UserForListDto>(user);
                         var token = await _jwtFactory.GenerateJwtToken(user);
-                        return Ok(new { token = token, user = user }); //user = userToReturn
+                        return Ok(new { token = token, user = userToReturn });
                     }
                 }
                 return NotFound();

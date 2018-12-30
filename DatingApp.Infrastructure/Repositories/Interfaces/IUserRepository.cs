@@ -11,7 +11,7 @@ namespace DatingApp.Infrastructure.Repositories.Interfaces
     {
         IEnumerable<ApplicationUser> GetUsersWithTheirRoles();
 
-        Task<ApplicationUser> GetUser(string id);
+        Task<ApplicationUser> GetUser(string username);
 
         Task<IEnumerable<ApplicationUser>> GetAllUsers();
 
