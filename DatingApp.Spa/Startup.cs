@@ -39,8 +39,9 @@ namespace DatingApp.Spa
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<Seeder>();
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddTransient<JwtFactory>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
 
             //Mapper.Reset();
             services.AddAutoMapper();
