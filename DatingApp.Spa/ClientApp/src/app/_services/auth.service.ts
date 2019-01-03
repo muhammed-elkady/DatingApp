@@ -1,3 +1,4 @@
+import { User } from './../models/interfaces/user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -15,6 +16,7 @@ export class AuthService {
   private baseUrl = environment.apiUrl + 'auth/';
   private _jwtHelper = new JwtHelperService();
   public decodedToken: DecodedToken;
+  currentUser: User;
 
   constructor(private httpClient: HttpClient, private alertifyService: AlertifyService) { }
   login(loginModel: any) {
@@ -23,7 +25,9 @@ export class AuthService {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token);
+          localStorage.setItem('user', JSON.stringify(user.user));
           this.decodedToken = this._jwtHelper.decodeToken(user.token) as DecodedToken;
+          this.currentUser = user.user;
           this.alertifyService.success(`Hello ${this.decodedToken.unique_name}`);
         }
       })
@@ -36,6 +40,9 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.decodedToken = null;
+    this.currentUser = null;
   }
 
   get isUserLoggedin(): boolean {

@@ -63,7 +63,7 @@ namespace DatingApp.Spa.Controllers.Api
             {
                 return Unauthorized();
             }
-            var userFromRepo = await _repo.GetUser(id);
+            var userFromRepo = await _repo.GetUserById(id);
             var file = photoForCreationDto.File;
             var uploadResult = new ImageUploadResult();
 
@@ -112,7 +112,7 @@ namespace DatingApp.Spa.Controllers.Api
             if (!CheckUserIdentity(id))
                 return Unauthorized();
 
-            var user = await _repo.GetUser(id);
+            var user = await _repo.GetUserById(id);
             if (!user.Photos.Any(p => p.Id == photoId))
                 return Unauthorized();
 

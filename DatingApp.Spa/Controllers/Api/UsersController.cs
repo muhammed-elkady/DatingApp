@@ -37,7 +37,7 @@ namespace DatingApp.Spa.Controllers.Api
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(string id)
         {
-            var user = await _repo.GetUser(id);
+            var user = await _repo.GetUserById(id);
             var userToReturn = _mapper.Map<UserForDetailsDto>(user);
 
             return Ok(userToReturn);
@@ -51,7 +51,7 @@ namespace DatingApp.Spa.Controllers.Api
             {
                 return Unauthorized();
             }
-            var userFromRepo = await _repo.GetUser(id);
+            var userFromRepo = await _repo.GetUserById(id);
             _mapper.Map(user, userFromRepo);
 
             if (await _repo.SaveAll())
