@@ -11,18 +11,18 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
 
-  // username: string;
+  photoUrl: string;
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
 
-
   constructor(public authService: AuthService, private _alertifyService: AlertifyService, private router: Router) { }
 
   ngOnInit() {
-    // The reason this didn't work because the value was set and localstorage changes isn't listned to
-    // this.username = this._authService.decodedToken.unique_name;
+    this.authService.currentPhotoUrl.subscribe(
+      photoUrl => this.photoUrl = photoUrl
+    );
   }
 
 

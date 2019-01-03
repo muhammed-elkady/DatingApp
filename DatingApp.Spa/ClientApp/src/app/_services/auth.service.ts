@@ -2,7 +2,7 @@ import { User } from './../models/interfaces/user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { DecodedToken } from '../models/interfaces/decoded-token';
 import { AlertifyService } from './alertify.service';
@@ -17,6 +17,8 @@ export class AuthService {
   private _jwtHelper = new JwtHelperService();
   public decodedToken: DecodedToken;
   currentUser: User;
+  photoUrl = new BehaviorSubject<string>('../../assets/default-user.png');
+  currentPhotoUrl = this.photoUrl.asObservable();
 
   constructor(private httpClient: HttpClient, private alertifyService: AlertifyService) { }
   login(loginModel: any) {
@@ -28,6 +30,7 @@ export class AuthService {
           localStorage.setItem('user', JSON.stringify(user.user));
           this.decodedToken = this._jwtHelper.decodeToken(user.token) as DecodedToken;
           this.currentUser = user.user;
+          this.changeMemberPhoto(this.currentUser.photoUrl);
           this.alertifyService.success(`Hello ${this.decodedToken.unique_name}`);
         }
       })
@@ -43,6 +46,10 @@ export class AuthService {
     localStorage.removeItem('user');
     this.decodedToken = null;
     this.currentUser = null;
+  }
+
+  changeMemberPhoto(photoUrl: string) {
+    this.photoUrl.next(photoUrl);
   }
 
   get isUserLoggedin(): boolean {
