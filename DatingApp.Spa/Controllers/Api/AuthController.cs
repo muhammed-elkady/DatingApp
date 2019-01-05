@@ -48,7 +48,7 @@ namespace DatingApp.Spa.Controllers.Api
             if (ModelState.IsValid)
             {
                 //ApplicationUser user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
-                var user = await _userRepo.GetUserById(userForLoginDto.UserName);
+                var user = await _userRepo.GetUser(userForLoginDto.UserName);
                 if (user != null)
                 {
                     var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);

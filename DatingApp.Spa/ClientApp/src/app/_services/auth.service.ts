@@ -21,6 +21,7 @@ export class AuthService {
   currentPhotoUrl = this.photoUrl.asObservable();
 
   constructor(private httpClient: HttpClient, private alertifyService: AlertifyService) { }
+  
   login(loginModel: any) {
     return this.httpClient.post(this.baseUrl + 'login', loginModel).pipe(
       map((response: any) => {
@@ -37,8 +38,8 @@ export class AuthService {
     )
   }
 
-  register(registerModel: any): Observable<any> {
-    return this.httpClient.post(this.baseUrl + 'register', registerModel);
+  register(user: User): Observable<any> {
+    return this.httpClient.post(this.baseUrl + 'register', user);
   }
 
   logout() {

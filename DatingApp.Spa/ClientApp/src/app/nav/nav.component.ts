@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
 
+  defaultPhotoUrl = '../../assets/default-user.png';
   photoUrl: string;
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),

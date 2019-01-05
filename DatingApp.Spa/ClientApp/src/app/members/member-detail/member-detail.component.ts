@@ -16,6 +16,7 @@ export class MemberDetailComponent implements OnInit {
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  defaultPhotoUrl = '../../../assets/default-user.png';
 
   constructor(private userService: UserService,
     private alertifyService: AlertifyService,

@@ -1,3 +1,4 @@
+import { User } from './../models/interfaces/user';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
@@ -13,12 +14,12 @@ import { BsDatepickerConfig } from 'ngx-bootstrap';
 })
 export class RegisterComponent implements OnInit {
 
-  registerModel: any = {};
+  user: User;
   registerForm: FormGroup;
   datepickerConfig: Partial<BsDatepickerConfig>;
 
   constructor(private _authService: AuthService,
-    private _alertifyService: AlertifyService,
+    private _alertify: AlertifyService,
     private _router: Router,
     private fb: FormBuilder) { }
 
@@ -46,21 +47,26 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterFormSubmit() {
-    debugger;
     if (this.registerForm.valid) {
-      // TODO: Initialize registerModel DTO
-
-      this._authService.register(this.registerModel)
+      
+      this.user = Object.assign({}, this.registerForm.value);
+      this._authService.register(this.user)
         .subscribe(
-          (response) => {
-            this._alertifyService.success('registeration successful');
+          () => {
+            this._alertify.success('registeration successful');
             this._router.navigate(['/']);
           },
-          () => this._alertifyService.error('registeration failed')
+          (err) => this._alertify.error(`registeration failed: ${err.toString()}`),
+          () => {
+            this._authService.login(this.user).subscribe(
+              () => this._router.navigate(['/members']),
+              (err) => { this._alertify.error(err) }
+            );
+          }
         );
     }
     else {
-      this._alertifyService.error('Registeration form is invalid');
+      this._alertify.error('Registeration form is invalid');
     }
 
   }

@@ -25,6 +25,7 @@ export class MemberEditComponent implements OnInit {
 
   user: User;
   photoUrl: string;
+  defaultPhotoUrl = '../../../assets/default-user.png';
 
   constructor(private route: ActivatedRoute,
     private alertifyService: AlertifyService,
