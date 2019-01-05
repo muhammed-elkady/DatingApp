@@ -4,6 +4,7 @@ import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
 import { matchPassword } from '../shared/validators';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +15,7 @@ export class RegisterComponent implements OnInit {
 
   registerModel: any = {};
   registerForm: FormGroup;
+  datepickerConfig: Partial<BsDatepickerConfig>;
 
   constructor(private _authService: AuthService,
     private _alertifyService: AlertifyService,
@@ -22,6 +24,10 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.initRegisterForm();
+    this.datepickerConfig = {
+      containerClass: 'theme-red'
+    };
+
 
   }
 
@@ -40,7 +46,10 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterFormSubmit() {
+    debugger;
     if (this.registerForm.valid) {
+      // TODO: Initialize registerModel DTO
+      
       this._authService.register(this.registerModel)
         .subscribe(
           (response) => {
