@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
 
   private initRegisterForm() {
     this.registerForm = this.fb.group({
-      gender: [''],
+      gender: ['', [Validators.required]],
       knownAs: ['', [Validators.required]],
       dateOfBirth: [null, [Validators.required]],
       city: ['', [Validators.required]],
@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
     debugger;
     if (this.registerForm.valid) {
       // TODO: Initialize registerModel DTO
-      
+
       this._authService.register(this.registerModel)
         .subscribe(
           (response) => {

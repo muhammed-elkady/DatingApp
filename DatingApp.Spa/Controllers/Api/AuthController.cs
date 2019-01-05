@@ -72,16 +72,14 @@ namespace DatingApp.Spa.Controllers.Api
             if (ModelState.IsValid)
             {
                 var userToCreate = _mapper.Map<ApplicationUser>(registerDto);
-                // TODO: handle when the username already exists
                 var result = await _userManager.CreateAsync(userToCreate, registerDto.Password);
-                var userToReturn = _mapper.Map<UserForRegisterDto>(userToCreate);
+                var userToReturn = _mapper.Map<UserForDetailsDto>(userToCreate);
 
                 if (result.Succeeded)
                 {
-                    // TODO: Create the users controller!
                     // TODO: Sign In the user on registeration! 
-                    return Ok(userToReturn);
-                    //return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
+
+                    return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
                 }
                 return BadRequest(result.Errors);
             }

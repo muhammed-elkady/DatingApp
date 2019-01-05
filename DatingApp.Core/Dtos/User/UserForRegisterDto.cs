@@ -12,6 +12,7 @@ namespace DatingApp.Core.Dtos.User
             Created = DateTime.Now;
             LastActive = DateTime.Now;
         }
+
         [Required]
         public string Username { get; set; }
 
