@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.Core.Dtos.User;
+using DatingApp.Core.Helpers;
 using DatingApp.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace DatingApp.Spa.Controllers.Api
     //Authorized Controller
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogUserActivityActionFilter))]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _repo;
