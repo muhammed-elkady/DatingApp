@@ -12,6 +12,7 @@ import { ErrorInterceptorProvider } from './_services/interceptors/error.interce
 import { AlertifyService } from './_services/alertify.service';
 import { BsDropdownModule, TabsModule, BsDatepickerModule } from 'ngx-bootstrap';
 
+
 import { MessagesComponent } from './messages/messages.component';
 import { appRoutes } from './routes';
 import { ListsComponent } from './lists/lists.component';
@@ -29,6 +30,7 @@ import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 @NgModule({
    declarations: [
@@ -42,7 +44,8 @@ import { FileUploadModule } from 'ng2-file-upload';
       MemberCardComponent,
       MemberDetailComponent,
       MemberEditComponent,
-      PhotoEditorComponent
+      PhotoEditorComponent,
+      TimeAgoPipe
    ],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
