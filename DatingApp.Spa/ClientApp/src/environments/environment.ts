@@ -5,9 +5,9 @@
 
 export const environment = {
   production: false,
-  apiUrl:'https://localhost:44344/api/' ,
-  whitelistedDomains: ['https://localhost:44344/'],
-  blacklistedRoutes: ['https://localhost:44344/api/auth/']
+  apiUrl:'https://localhost:44304/api/' ,
+  whitelistedDomains: ['https://localhost:44304/'],
+  blacklistedRoutes: ['https://localhost:44304/api/auth/']
 
 
 };
