@@ -31,9 +31,9 @@ namespace DatingApp.Spa.Controllers.Api
         public async Task<IActionResult> GetUsers()
         {
             var users = await _repo.GetAllUsers();
-            var userToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+            var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
 
-            return Ok(userToReturn);
+            return Ok(usersToReturn);
         }
 
         [HttpGet("{id}", Name = nameof(GetUser))]
