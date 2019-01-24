@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.Core.Entities;
+using DatingApp.Core.Helpers;
 using DatingApp.Core.Identity;
 using DatingApp.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +41,7 @@ namespace DatingApp.Infrastructure.Repositories
             return user;
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetAllUsers()
+        public async Task<PagedList<ApplicationUser>> GetUsers(UserParams userParams)
         {
             var users = _context.Users.Include(c => c.Photos).Include(c => c.UserRoles);
             var usersWithoutAdmin = await users.Where(c => c.UserRoles.All(x => x.Role.Name != "Admin")).ToListAsync();
