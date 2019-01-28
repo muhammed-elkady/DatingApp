@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.Core.Dtos.User;
+using DatingApp.Core.Extensions;
 using DatingApp.Core.Helpers;
 using DatingApp.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,9 @@ namespace DatingApp.Spa.Controllers.Api
         {
             var users = await _repo.GetUsers(userParams);
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
 
             return Ok(usersToReturn);
         }

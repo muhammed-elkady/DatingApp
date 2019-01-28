@@ -44,8 +44,8 @@ namespace DatingApp.Infrastructure.Repositories
         public async Task<PagedList<ApplicationUser>> GetUsers(UserParams userParams)
         {
             var users = _context.Users.Include(c => c.Photos).Include(c => c.UserRoles);
-            var usersWithoutAdmin = await users.Where(c => c.UserRoles.All(x => x.Role.Name != "Admin")).ToListAsync();
-            return usersWithoutAdmin;
+            var usersWithoutAdmin = users.Where(c => c.UserRoles.All(x => x.Role.Name != "Admin"));
+            return await PagedList<ApplicationUser>.CreateAsync(usersWithoutAdmin, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<bool> SaveAll()
