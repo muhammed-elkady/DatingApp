@@ -1,36 +1,60 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
 
-import { Observable } from 'rxjs';
-import { User } from '../models/interfaces/user';
-import { HttpClient } from '@angular/common/http';
+import { Observable } from "rxjs";
+import { User } from "../models/interfaces/user";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { PaginatedResult } from "../models/interfaces/pagination";
+import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-
 export class UserService {
   baseUrl = environment.apiUrl;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + 'users')
+  getUsers(page?, itemsPerPage?): Observable<PaginatedResult<User[]>> {
+    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+    let params = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      params = params.append("pageNumber", page);
+      params = params.append("pageSize", itemsPerPage);
+    }
+    return this.http
+      .get<User[]>(this.baseUrl + "users", {
+        observe: "response",
+        params: params
+      })
+      .pipe(
+        map(res => {
+          paginatedResult.result = res.body;
+          if (res.headers.get("Pagination") != null){
+            paginatedResult.pagination = JSON.parse(res.headers.get("Pagination"));
+          }
+          return paginatedResult;
+        })
+      );
   }
 
   getUser(id: string): Observable<User> {
-    return this.http.get<User>(this.baseUrl + 'users/' + id)
+    return this.http.get<User>(this.baseUrl + "users/" + id);
   }
 
   updateUser(id: string, user: User) {
-    return this.http.put(`${this.baseUrl}users/${id}`, user)
+    return this.http.put(`${this.baseUrl}users/${id}`, user);
   }
 
   setMainPhoto(userId: string, photoId: number) {
-    return this.http.post(`${this.baseUrl}users/${userId}/photos/${photoId}/setmain`, {});
+    return this.http.post(
+      `${this.baseUrl}users/${userId}/photos/${photoId}/setmain`,
+      {}
+    );
   }
 
   deletePhoto(userId: string, photoId: number) {
-    return this.http.delete(`${this.baseUrl}/users/${userId}/photos/${photoId}`);
+    return this.http.delete(
+      `${this.baseUrl}/users/${userId}/photos/${photoId}`
+    );
   }
-
 }
