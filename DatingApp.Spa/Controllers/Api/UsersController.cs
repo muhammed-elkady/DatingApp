@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,7 +7,6 @@ using DatingApp.Core.Dtos.User;
 using DatingApp.Core.Extensions;
 using DatingApp.Core.Helpers;
 using DatingApp.Infrastructure.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Spa.Controllers.Api
