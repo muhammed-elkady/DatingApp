@@ -80,22 +80,22 @@ namespace DatingApp.Spa.Controllers.Api
 
 
 
-        [HttpPost("{id}/like/{recepientId}")]
-        public async Task<IActionResult> LikeUser(string id, string recepientId)
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(string id, string recipientId)
         {
             if (!CheckUserIdentity(id))
                 return Unauthorized();
 
-            var like = await _repo.GetLike(id, recepientId);
+            var like = await _repo.GetLike(id, recipientId);
 
             if (like != null)
                 return BadRequest("You already like this user");
 
 
-            if (await _repo.GetUserById(recepientId) == null)
+            if (await _repo.GetUserById(recipientId) == null)
                 return NotFound();
 
-            like = new Like { LikerId = id, LikeeId = recepientId };
+            like = new Like { LikerId = id, LikeeId = recipientId };
 
 
 

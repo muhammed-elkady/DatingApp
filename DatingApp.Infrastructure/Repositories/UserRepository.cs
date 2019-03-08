@@ -124,10 +124,10 @@ namespace DatingApp.Infrastructure.Repositories
             return user;
         }
 
-        public async Task<Like> GetLike(string userId, string recepientId)
+        public async Task<Like> GetLike(string userId, string recipientId)
         {
             return await _context.Likes
-                .FirstOrDefaultAsync(l => l.LikerId == userId && l.LikeeId == recepientId);
+                .FirstOrDefaultAsync(l => l.LikerId == userId && l.LikeeId == recipientId);
         }
 
 
