@@ -19,6 +19,8 @@ namespace DatingApp.Core.Helpers
             TotalCount = count;
             PageSize = pageSize;
             CurrentPage = currentPageNumber;
+
+            // TotalPages:  Created at runtime
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             this.AddRange(items);
         }

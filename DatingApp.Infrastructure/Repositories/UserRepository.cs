@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.Core.Entities;
@@ -43,9 +44,25 @@ namespace DatingApp.Infrastructure.Repositories
 
         public async Task<PagedList<ApplicationUser>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(c => c.Photos).Include(c => c.UserRoles);
-            var usersWithoutAdmin = users.Where(c => c.UserRoles.All(x => x.Role.Name != "Admin"));
-            return await PagedList<ApplicationUser>.CreateAsync(usersWithoutAdmin, userParams.PageNumber, userParams.PageSize);
+            var users = _context.Users.Include(c => c.Photos).Include(c => c.UserRoles).AsQueryable();
+
+            users = users
+            // exclude the admin user from returning to caller
+            .Where(c => c.UserRoles.All(x => x.Role.Name != "Admin"))
+            // exclude the user himself from returning to caller
+            .Where(u => u.Id != userParams.UserId)
+            // include the opposite gender to the caller
+            .Where(u => u.Gender == userParams.Gender);
+
+            // checks if the user specified an age range
+            if (userParams.MinAge != 18 || userParams.MaxAge != 99)
+            {
+                var minDateOfBirth = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+                var maxDateOfBirth = DateTime.Today.AddYears(-userParams.MinAge);
+                users = users.Where(u => u.DateOfBirth >= minDateOfBirth && u.DateOfBirth <= maxDateOfBirth);
+            }
+
+            return await PagedList<ApplicationUser>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<bool> SaveAll()
