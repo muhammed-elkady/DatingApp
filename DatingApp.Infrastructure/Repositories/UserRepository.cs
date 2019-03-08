@@ -44,7 +44,10 @@ namespace DatingApp.Infrastructure.Repositories
 
         public async Task<PagedList<ApplicationUser>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(c => c.Photos).Include(c => c.UserRoles).AsQueryable();
+            var users = _context.Users.Include(c => c.Photos)
+                .Include(c => c.UserRoles)
+                .OrderByDescending(U => U.LastActive)
+                .AsQueryable();
 
             users = users
             // exclude the admin user from returning to caller
@@ -57,9 +60,27 @@ namespace DatingApp.Infrastructure.Repositories
             // checks if the user specified an age range
             if (userParams.MinAge != 18 || userParams.MaxAge != 99)
             {
+                // calculate a DateTime based on Min date of birth
                 var minDateOfBirth = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+
                 var maxDateOfBirth = DateTime.Today.AddYears(-userParams.MinAge);
                 users = users.Where(u => u.DateOfBirth >= minDateOfBirth && u.DateOfBirth <= maxDateOfBirth);
+            }
+
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                // TODO: switch on a Enum of createria
+                switch (userParams.OrderBy)
+                {
+
+                    case "created":
+                        users = users.OrderByDescending(u => u.Created);
+                        break;
+
+                    default:
+                        users = users.OrderByDescending(u => u.LastActive);
+                        break;
+                }
             }
 
             return await PagedList<ApplicationUser>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);

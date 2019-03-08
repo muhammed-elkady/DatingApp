@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
-import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
 
 
 import { MessagesComponent } from './messages/messages.component';
@@ -55,6 +55,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
       NgxGalleryModule,
       FileUploadModule,
       RouterModule.forRoot(appRoutes),
+      ButtonsModule.forRoot(),
       BsDropdownModule.forRoot(),
       TabsModule.forRoot(),
       BsDatepickerModule.forRoot(),
