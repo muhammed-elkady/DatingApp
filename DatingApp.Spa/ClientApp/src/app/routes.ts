@@ -1,3 +1,4 @@
+import { ListsResolver } from './_resolvers/lists.resolver';
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { RegisterComponent } from "./register/register.component";
@@ -50,6 +51,7 @@ export const appRoutes: Routes = [
             {
                 path: 'lists',
                 component: ListsComponent,
+                resolve: {users: ListsResolver}
             },
         ]
     },

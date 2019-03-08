@@ -12,12 +12,13 @@ import { map } from "rxjs/operators";
 })
 export class UserService {
   baseUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUsers(
     page?,
     itemsPerPage?,
-    userParams?: any
+    userParams?: any,
+    likesParams?: string
   ): Observable<PaginatedResult<User[]>> {
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<
       User[]
@@ -33,6 +34,13 @@ export class UserService {
       params = params.append("maxAge", userParams.maxAge);
       params = params.append("gender", userParams.gender);
       params = params.append("orderBy", userParams.orderBy);
+    }
+
+    if (likesParams === 'Likers') {
+      params = params.append('likers', 'true');
+    }
+    if (likesParams === 'Likees') {
+      params = params.append('likees', 'true');
     }
 
     return this.http

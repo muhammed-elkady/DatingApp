@@ -31,6 +31,7 @@ import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.gu
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeAgoPipe } from 'time-ago-pipe';
+import { ListsResolver } from './_resolvers/lists.resolver';
 
 @NgModule({
    declarations: [
@@ -71,6 +72,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
       MemberListResolver,
       MemberEditResolver,
       PreventUnsavedChangesGuard,
+      ListsResolver,
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
    ],
    bootstrap: [AppComponent]
