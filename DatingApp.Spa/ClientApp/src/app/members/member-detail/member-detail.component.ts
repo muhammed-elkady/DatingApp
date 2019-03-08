@@ -4,6 +4,7 @@ import { UserService } from '../../_services/user.service';
 import { User } from '../../models/interfaces/user';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from './../../_services/alertify.service';
+import { AuthService } from './../../_services/auth.service';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 
 @Component({
@@ -19,6 +20,7 @@ export class MemberDetailComponent implements OnInit {
   defaultPhotoUrl = '../../../assets/default-user.png';
 
   constructor(private userService: UserService,
+    private authService: AuthService,
     private alertifyService: AlertifyService,
     private route: ActivatedRoute) { }
 
@@ -61,6 +63,14 @@ export class MemberDetailComponent implements OnInit {
       });
     }
     return imageUrls;
+  }
+
+  sendLike(recipientId: string) {
+    this.userService.sendLike(this.authService.decodedToken.nameid, recipientId)
+      .subscribe(
+        (data) => { this.alertifyService.success(`You've liked: ${this.user.knownAs}`) },
+        (err) => this.alertifyService.error(err)
+      )
   }
 
 }
