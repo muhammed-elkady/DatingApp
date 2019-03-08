@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.Core.Dtos.User;
+using DatingApp.Core.Entities;
 using DatingApp.Core.Extensions;
 using DatingApp.Core.Helpers;
 using DatingApp.Infrastructure.Repositories.Interfaces;
@@ -18,11 +19,13 @@ namespace DatingApp.Spa.Controllers.Api
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _repo;
+        private readonly ILikeRepository _likeRepo;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository repo, IMapper mapper)
+        public UsersController(IUserRepository repo, ILikeRepository likeRepo, IMapper mapper)
         {
             _repo = repo;
+            _likeRepo = likeRepo;
             _mapper = mapper;
         }
 
@@ -74,6 +77,38 @@ namespace DatingApp.Spa.Controllers.Api
 
             throw new Exception($"Updating user with {id} failed on save");
         }
+
+
+
+        [HttpPost("{id}/like/{recepientId}")]
+        public async Task<IActionResult> LikeUser(string id, string recepientId)
+        {
+            if (!CheckUserIdentity(id))
+                return Unauthorized();
+
+            var like = await _repo.GetLike(id, recepientId);
+
+            if (like != null)
+                return BadRequest("You already like this user");
+
+
+            if (await _repo.GetUserById(recepientId) == null)
+                return NotFound();
+
+            like = new Like { LikerId = id, LikeeId = recepientId };
+
+
+
+            _likeRepo.Add(like);
+
+            if (await _likeRepo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to like user");
+
+
+        }
+
 
         #region Helpers
         private bool CheckUserIdentity(string id)

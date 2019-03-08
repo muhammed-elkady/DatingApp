@@ -42,6 +42,7 @@ namespace DatingApp.Spa
             services.AddTransient<JwtFactory>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<LogUserActivityActionFilter>();
 
             //Mapper.Reset();

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DatingApp.Infrastructure.Repositories.Interfaces
 {
-    public interface IPhotoRepository : IRepository<Photo>
+    public interface ILikeRepository : IRepository<Like>
     {
     }
 }

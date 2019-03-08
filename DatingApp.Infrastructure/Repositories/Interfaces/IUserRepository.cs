@@ -21,5 +21,7 @@ namespace DatingApp.Infrastructure.Repositories.Interfaces
         Task<Photo> GetPhoto(int id);
 
         Task<Photo> GetMainPhotoForUser(string userId);
+
+        Task<Like> GetLike(string userId, string recepientId);
     }
 }

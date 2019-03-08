@@ -109,5 +109,11 @@ namespace DatingApp.Infrastructure.Repositories
             var user = await _context.Users.Include(c => c.Photos).FirstOrDefaultAsync(c => c.Id == id);
             return user;
         }
+
+        public async Task<Like> GetLike(string userId, string recepientId)
+        {
+            return await _context.Likes
+                .FirstOrDefaultAsync(l => l.LikerId == userId && l.LikeeId == recepientId);
+        }
     }
 }
