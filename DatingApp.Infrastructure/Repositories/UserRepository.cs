@@ -57,6 +57,20 @@ namespace DatingApp.Infrastructure.Repositories
             // include the opposite gender to the caller
             .Where(u => u.Gender == userParams.Gender);
 
+
+            // Retrieve the likers or likees
+            if (userParams.Likers)
+            {
+                var userLikers = await GetUserLikes(userParams.UserId, userParams.Likers);
+                users = users.Where(u => userLikers.Contains(u.Id));
+            }
+            else
+            {
+                var userLikees = await GetUserLikes(userParams.UserId, userParams.Likers);
+                users = users.Where(u => userLikees.Contains(u.Id));
+            }
+
+
             // checks if the user specified an age range
             if (userParams.MinAge != 18 || userParams.MaxAge != 99)
             {
@@ -115,5 +129,23 @@ namespace DatingApp.Infrastructure.Repositories
             return await _context.Likes
                 .FirstOrDefaultAsync(l => l.LikerId == userId && l.LikeeId == recepientId);
         }
+
+
+        private async Task<IEnumerable<string>> GetUserLikes(string id, bool likers)
+        {
+            var user = await _context.Users.Include(x => x.Likers).Include(x => x.Likees)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (likers)
+            {
+                // return all the users that have like the currently logged in user
+                return user.Likers.Where(u => u.LikeeId == id).Select(c => c.LikerId);
+            }
+            else
+            {
+                return user.Likees.Where(u => u.LikerId == id).Select(c => c.LikeeId);
+            }
+        }
+
     }
 }
