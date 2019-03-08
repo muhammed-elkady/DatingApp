@@ -30,9 +30,9 @@ export class MembersListComponent implements OnInit {
     });
   }
 
-  pageChanged(event): void {
-    this.pagination.currentPage = event.page;
-    console.log(this.pagination.currentPage);
+  pageChanged(args: { itemsPerPage: number; page: number }): void {
+    this.pagination.currentPage = args.page;
+    this.loadUsers();
   }
 
   loadUsers() {
