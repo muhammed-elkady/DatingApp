@@ -73,4 +73,11 @@ export class UserService {
       `${this.baseUrl}/users/${userId}/photos/${photoId}`
     );
   }
+
+  sendLike(id: string, recipientId: string) {
+    return this.http.post(
+      this.baseUrl + "users/" + id + "/like/" + recipientId,
+      {}
+    );
+  }
 }
