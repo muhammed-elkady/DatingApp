@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/interceptors/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
-import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule, BsModalService, ModalModule } from 'ngx-bootstrap';
 
 
 import { MessagesComponent } from './messages/messages.component';
@@ -33,6 +33,11 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { ListsResolver } from './_resolvers/lists.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { AdminService } from './_services/admin.service';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 
 @NgModule({
    declarations: [
@@ -48,8 +53,13 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
       MemberEditComponent,
       PhotoEditorComponent,
       TimeAgoPipe,
-      AdminPanelComponent
+      AdminPanelComponent,
+      HasRoleDirective,
+      PhotoManagementComponent,
+      UserManagementComponent,
+      RolesModalComponent
    ],
+   entryComponents: [RolesModalComponent],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
       HttpClientModule,
@@ -62,7 +72,8 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
       BsDropdownModule.forRoot(),
       TabsModule.forRoot(),
       BsDatepickerModule.forRoot(),
-      PaginationModule.forRoot()
+      PaginationModule.forRoot(),
+      ModalModule.forRoot()
    ],
    providers: [
       AuthService,
@@ -75,6 +86,8 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
       MemberEditResolver,
       PreventUnsavedChangesGuard,
       ListsResolver,
+      AdminService,
+      BsModalService,
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
    ],
    bootstrap: [AppComponent]

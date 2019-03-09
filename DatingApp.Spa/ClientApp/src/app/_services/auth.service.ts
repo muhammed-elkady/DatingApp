@@ -21,7 +21,7 @@ export class AuthService {
   currentPhotoUrl = this.photoUrl.asObservable();
 
   constructor(private httpClient: HttpClient, private alertifyService: AlertifyService) { }
-  
+
   login(loginModel: any) {
     return this.httpClient.post(this.baseUrl + 'login', loginModel).pipe(
       map((response: any) => {
@@ -59,6 +59,20 @@ export class AuthService {
   }
   get token(): string {
     return localStorage.getItem('token');
+  }
+
+  roleMatch(allowedRoles): boolean {
+    let isMatch = false;
+    const userRoles: any = this.decodedToken.role as Array<string>;
+    allowedRoles.forEach(element => {
+      if (userRoles.includes(element)) {
+        isMatch = true;
+        return isMatch;
+      }
+    });
+    return isMatch;
+
+
   }
 
 }

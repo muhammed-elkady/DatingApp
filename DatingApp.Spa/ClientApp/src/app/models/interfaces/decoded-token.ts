@@ -4,6 +4,6 @@ export interface DecodedToken {
     iat: number
     nameid: string
     nbf: number
-    role: string
+    role: string[]
     unique_name: string
 }

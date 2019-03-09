@@ -13,7 +13,7 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/messages']">Messages</a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
+      <li *appHasRole="['Admin', 'Moderator']" class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/admin']">Admin</a>
       </li>
     </ul>
@@ -27,13 +27,15 @@
       </a>
 
       <div class="dropdown-menu mt-2" *dropdownMenu>
-        <a class="dropdown-item pointerLink" [routerLink]="['/members/edit']"><i class="fa fa-user"></i> Edit Profile</a>
+        <a class="dropdown-item pointerLink" [routerLink]="['/members/edit']"><i class="fa fa-user"></i> Edit
+          Profile</a>
         <div class="dropdown-divider"></div>
         <a (click)="logout()" class="dropdown-item pointerLink"><i class="fa fa-sign-out"></i> Logout</a>
       </div>
     </div>
 
-    <form class="form-inline my-2 my-lg-0" *ngIf="!isUserLoggedin" [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit()">
+    <form class="form-inline my-2 my-lg-0" *ngIf="!isUserLoggedin" [formGroup]="loginForm"
+      (ngSubmit)="onLoginFormSubmit()">
       <input class="form-control mr-sm-2" formControlName="username" type="text" placeholder="Username">
       <input class="form-control mr-sm-2" formControlName="password" type="password" placeholder="Password">
       <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
