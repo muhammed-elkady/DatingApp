@@ -20,6 +20,7 @@ namespace DatingApp.Infrastructure
         // The DbSet<Users> are in the inherited IdentityDbContext 
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -67,6 +68,19 @@ namespace DatingApp.Infrastructure
                 .WithMany(u => u.Likees)
                 .HasForeignKey(u => u.LikerId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(u => u.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+                .HasOne(u => u.Recipient)
+                .WithMany(u => u.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
 
         }
     }
