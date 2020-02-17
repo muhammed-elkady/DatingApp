@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DatingApp.Core.Dtos.Message;
 using DatingApp.Core.Dtos.Photo;
 using DatingApp.Core.Dtos.User;
 using DatingApp.Core.Entities;
@@ -42,6 +43,8 @@ namespace DatingApp.Core.Helpers
             CreateMap<UserForUpdateDto, ApplicationUser>();
             CreateMap<Photo, PhotoForReturnDto>();
             CreateMap<PhotoForCreationDto, Photo>();
+
+            CreateMap<MessageForCreationDto, Message>().ReverseMap();
 
 
         }

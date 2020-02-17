@@ -43,6 +43,7 @@ namespace DatingApp.Spa
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<LogUserActivityActionFilter>();
 
             //Mapper.Reset();
